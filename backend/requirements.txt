@@ -13,3 +13,4 @@ paddleocr
 opencv-python-headless
 torchvision
 scipy
+paddle
