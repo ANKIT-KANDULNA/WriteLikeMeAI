@@ -14,7 +14,7 @@ Pillow
 scikit-image
 
 paddleocr
-paddlepaddle==2.6.1
+paddlepaddle==2.6.2
 
 fonttools
 
