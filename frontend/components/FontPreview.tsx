@@ -26,7 +26,6 @@ export function FontPreview() {
     };
   }, []); // load once — font file doesn't change
 
-  if (!fontUrl) return null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -47,7 +46,6 @@ export function FontPreview() {
 
       <div className="flex gap-3">
         <a
-          href={fontUrl}
           download={`${fontName.replace(/\s+/g, "_") || "MyHandwriting"}.woff2`}
           className="flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors"
         >
