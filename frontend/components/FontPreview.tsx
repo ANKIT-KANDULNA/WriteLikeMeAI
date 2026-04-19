@@ -10,7 +10,7 @@ const PREVIEW_TEXT =
 const FONT_NAME = "BestExample";
 
 export function FontPreview() {
-  const { fontUrl, fontName, reset } = useFontStore();
+  const { fontName, reset } = useFontStore();
   const [loaded, setLoaded] = useState(false);
   const faceRef = useRef<FontFace | null>(null);
 
