@@ -8,3 +8,6 @@ opencv-python-headless
 Pillow
 redis
 python-multipart
+torch
+paddleocr
+opencv-python-headless
