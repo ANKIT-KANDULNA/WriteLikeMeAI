@@ -10,11 +10,12 @@ os.environ["PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK"] = "True"
 router = APIRouter()
 
 # ── lazy-load heavy models once ──────────────────────────────────────────────
+# NOTE: PaddleOCR/PaddlePaddle removed — segmentation now uses pure OpenCV.
+# Only the PyTorch classification model is needed.
 _clf_model = None
-_det_model = None
 
 def _load_models():
-    global _clf_model, _det_model
+    global _clf_model
     if _clf_model is not None:
         return
 
@@ -26,25 +27,12 @@ def _load_models():
             detail="Missing dependency 'torch' on backend. Install backend requirements and restart the API.",
         ) from e
 
-    try:
-        from paddleocr import TextDetection
-    except ModuleNotFoundError as e:
-        raise HTTPException(
-            500,
-            detail="Missing dependency 'paddleocr' on backend. Install backend requirements (including paddleocr) and restart the API.",
-        ) from e
     from app.core.config import RESOURCES
     from character_classification import ResInceptionNet
 
     _clf_model = ResInceptionNet(num_classes=52)
     _clf_model.load_state_dict(
-        torch.load(RESOURCES / "best_ResInceptionNet_model0.8811.pth", map_location="cpu")
-    )
-
-    _det_model = TextDetection(
-        model_name="PP-OCRv5_mobile_det",
-        model_dir=str(RESOURCES / "PP-OCRv5_mobile_det_infer"),
-        enable_mkldnn=False,
+        torch.load(RESOURCES / "best_ResInceptionNet_model0.8811.pth", map_location="cpu", weights_only=True)
     )
 
 # ── in-memory session store: session_id → {label: crop_path} ─────────────────
@@ -90,7 +78,8 @@ async def segment_image(
         img_path = tmp.name
 
     try:
-        chars = segment_characters(img_path, det_model=_det_model)
+        # det_model=None — segmentation uses pure OpenCV, no PaddleOCR
+        chars = segment_characters(img_path, det_model=None)
         if not chars:
             raise HTTPException(400, detail="No characters detected. Use a clear image with separated letters on a plain background.")
 

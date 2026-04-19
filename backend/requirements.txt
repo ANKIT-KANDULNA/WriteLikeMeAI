@@ -4,18 +4,18 @@ python-multipart
 pydantic
 httpx
 
+# PyTorch CPU-only (classification model)
 torch --index-url https://download.pytorch.org/whl/cpu
 torchvision --index-url https://download.pytorch.org/whl/cpu
 
+# Image processing (segmentation now uses pure OpenCV — no PaddlePaddle needed)
 opencv-python-headless
 numpy
 scipy
 Pillow
 scikit-image
 
-paddleocr
-paddlepaddle==2.6.2
-
+# Font generation
 fonttools
 
 setuptools
