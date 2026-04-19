@@ -4,16 +4,19 @@ python-multipart
 pydantic
 httpx
 
-torch
-torchvision
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
 
-opencv-python
+opencv-python-headless
 numpy
 scipy
 Pillow
 scikit-image
 
 paddleocr
-paddlepaddle
+paddlepaddle==2.6.1
 
 fonttools
+
+setuptools
+wheel
