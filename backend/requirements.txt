@@ -12,3 +12,4 @@ torch
 paddleocr
 opencv-python-headless
 torchvision
+scipy
