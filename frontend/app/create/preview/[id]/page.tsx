@@ -95,7 +95,7 @@ function EditableBlock({
     if (!prompt.trim()) return;
     setIsGenerating(true);
     try {
-      const res = await fetch(`${API}/api/generate-text`, {
+      const res = await fetch(`/api/generate-text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, model: defaultModel, word_count: 50 }),

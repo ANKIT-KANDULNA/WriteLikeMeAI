@@ -73,7 +73,7 @@ app.add_middleware(
 
 # ✅ DEBUG: print env (temporary)
 print("GEMINI_API_KEY:", os.getenv("GEMINI_API_KEY"))
-print("GROK_API_KEY:", os.getenv("GROK_API_KEY"))
+print("GROQ_API_KEY:", os.getenv("GROQ_API_KEY"))
 
 
 # Routes

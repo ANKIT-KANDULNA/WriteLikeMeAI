@@ -328,7 +328,7 @@ async def generate_text(req: GenerateTextRequest):
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise HTTPException(500, detail="GEMINI_API_KEY is not set on the backend.")
-        model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
         params = {"key": api_key}
         payload = {
