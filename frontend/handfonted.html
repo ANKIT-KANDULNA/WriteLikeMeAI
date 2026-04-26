@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0JEJ549SE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-K0JEJ549SE');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HandFonted | Create a Font From Your Handwriting Instantly</title>
+    <meta name="description"
+        content="Turn your unique handwriting into a fully functional .ttf font with our AI font generator. Simply upload an image of your letters and download your personal font in minutes.">
+
+    <link rel="icon" type="image/x-icon" href="/static/images/logo.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <section class="hero-section">
+        <div class="container">
+            <h1>Turn Your Handwriting into a Real Font</h1>
+            <h2>Our AI-powered generator makes it easy to create a custom, personal font from a single image. Digitize
+                your unique style in seconds.</h2>
+            <a href="#app-wrapper" class="btn-primary btn-hero">Create My Font Now</a>
+            <p class="small-text">No signup required. Fast, free, and fun.</p>
+        </div>
+    </section>
+
+    <main id="app-wrapper" class="app-wrapper">
+        <div class="container">
+            <header>
+                <!-- Changed h1 to h2 for proper semantic structure (only one h1 per page) -->
+                <h2>The Font Generator</h2>
+            </header>
+
+            <div class="messages">
+                <!-- Messages will be displayed here by JavaScript -->
+            </div>
+
+            <!-- Example Images Section -->
+            <div class="sample-images-section">
+                <h3>Image Upload Examples:</h3>
+                <div class="sample-image-container">
+                    <div class="sample-image-item">
+                        <img src="/static/images/good_example.jpg" alt="Good Example">
+                        <p class="caption good">Good: Clear, separated</p>
+                    </div>
+                    <div class="sample-image-item">
+                        <img src="/static/images/bad_example.jpg" alt="Bad Example">
+                        <p class="caption bad">Bad: Lined background, connected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Upload Form -->
+            <form id="uploadForm" class="upload-form">
+                <div class="form-group">
+                    <label for="handwriting_image">1. Upload Handwriting Image:</label>
+                    <input type="file" name="handwriting_image" id="handwriting_image" accept="image/*" required>
+                    <small>Important: Clear, well-separated characters on a plain background.</small>
+                </div>
+                <div class="form-group" id="uploadedImagePreviewContainer" style="display: none;">
+                    <label>Your Uploaded Image:</label>
+                    <img id="uploadedImagePreview" src="#" alt="Uploaded Image Preview">
+                </div>
+                <div class="form-group">
+                    <label for="font_family_name_input">Desired Font Family Name:</label>
+                    <input type="text" name="font_family_name" id="font_family_name_input"
+                        placeholder="e.g., My Handwriting" value="MyHandwriting">
+                </div>
+                <div class="form-group">
+                    <label for="stroke_thickness_input">Stroke Thickness:</label>
+                    <input type="number" name="stroke_thickness" id="stroke_thickness_input" placeholder="e.g., 100"
+                        value="100">
+                </div>
+                <button type="submit" class="btn-submit">Process Image for Verification</button>
+            </form>
+
+            <div id="loading-indicator" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing, please wait...</p>
+            </div>
+
+            <!-- Step 2: Character Verification Area -->
+            <div id="verificationArea" style="display: none;">
+                <h2>2. Verify Characters</h2>
+                <p>Review the detected characters. You can change labels or remove incorrect items.</p>
+                <div id="characterGrid" class="character-grid"></div>
+                <button id="generateFontBtn" class="btn-submit">Generate & Preview Font</button>
+            </div>
+
+            <!-- Step 3: Font Preview and Download Area -->
+            <div id="previewArea" style="display: none;">
+                <h2>3. Preview & Download Your Font</h2>
+                <div class="form-group">
+                    <label for="fontPreviewEditor">Preview Text (Type here):</label>
+                    <textarea id="fontPreviewEditor" rows="6"
+                        placeholder="The quick brown fox jumps over the lazy dog."></textarea>
+                </div>
+                <button id="downloadFontBtn" class="btn-submit" style="display: none;">Download Font (.ttf)</button>
+                <div id="fontDownloadLinkContainer"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="content-section">
+        <div class="container">
+            <h2>Create Your Font in 3 Simple Steps</h2>
+            <div class="grid-3">
+                <div class="grid-item">
+                    <h3>1. Upload</h3>
+                    <p>Snap a clear photo of your handwritten letters on a plain background. For best results, write
+                        each character separately.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>2. AI Magic</h3>
+                    <p>Our AI instantly analyzes your image, segments each character, and converts them into clean
+                        vector glyphs.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>3. Download & Use</h3>
+                    <p>Download your `.ttf` font file. Install it and start typing in your own handwriting everywhere!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="content-section-colored">
+        <div class="container">
+            <h2>More Than Just a Font Creator</h2>
+            <div class="grid-2">
+                <div class="grid-item">
+                    <h3>AI-Powered Precision</h3>
+                    <p>Our custom-built neural network captures the unique essence of your handwriting. This isn't just
+                        a trace; it's an intelligent conversion.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Truly Personal</h3>
+                    <p>Stop using generic fonts. Create a personal font that is 100% you. Perfect for adding a unique,
+                        handmade touch to any digital project.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Universal Compatibility</h3>
+                    <p>Your generated `.ttf` font file works seamlessly with Photoshop, Canva, Microsoft Word,
+                        Illustrator, and more.</p>
+                </div>
+                <div class="grid-item">
+                    <h3>Instant & Online</h3>
+                    <p>No software to install. Convert your handwriting to a font right in your browser. From picture to
+                        font file in under a minute.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="content-section">
+        <div class="container">
+            <h2>Your Questions, Answered</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3>What kind of image do I need to create my font?</h3>
+                    <p>For the best results, use a high-contrast image. Write your characters clearly and separately on
+                        a plain white piece of paper using a dark black pen. Make sure the photo is well-lit and not
+                        blurry.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is the generated font file a real .ttf?</h3>
+                    <p>Yes! HandFonted generates a standard TrueType Font (`.ttf`) file that you can install on Windows,
+                        macOS, and Linux. Once installed, it will appear in the font list of most applications.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What about the privacy of my uploaded images?</h3>
+                    <p>We take your privacy very seriously. Your uploaded image is processed in real-time to generate
+                        your font and is immediately deleted from our server once the process is complete. We do not
+                        store, view, or share your images or the fonts you create.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How does the AI work to generate the font?</h3>
+                    <p>Our system uses a multi-stage process. It first segments (cuts out) each character from your
+                        image, classifies it (identifies 'A', 'B', etc.), and then converts the pixel image of each
+                        character into a smooth vector outline, which is compiled into a `.ttf` file.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>© 2024 HandFonted.xyz. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- =================================================================
+         YOUR ORIGINAL JAVASCRIPT - UNCHANGED
+    ================================================================== -->
+    <script>
+        // --- ALL OF YOUR ORIGINAL JAVASCRIPT REMAINS HERE, UNCHANGED ---
+        const uploadForm = document.getElementById('uploadForm');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const messagesContainer = document.querySelector('.messages');
+        const verificationArea = document.getElementById('verificationArea');
+        const characterGrid = document.getElementById('characterGrid');
+        const generateFontBtn = document.getElementById('generateFontBtn');
+        const previewArea = document.getElementById('previewArea');
+        const fontPreviewEditor = document.getElementById('fontPreviewEditor');
+        const downloadFontBtn = document.getElementById('downloadFontBtn');
+        const handwritingImageInput = document.getElementById('handwriting_image'); // Get the file input
+        const uploadedImagePreviewContainer = document.getElementById('uploadedImagePreviewContainer');
+        const uploadedImagePreview = document.getElementById('uploadedImagePreview');
+
+
+        let currentFontFamilyName = "MyHandwriting"; // To store the name for preview and download
+        let currentStrokeThickness = 100;
+
+        function displayMessage(text, type) {
+            messagesContainer.innerHTML = ''; // Clear previous
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = text;
+            messagesContainer.appendChild(alertDiv);
+        }
+
+        function hideAllStepsAndPreview() {
+            verificationArea.style.display = 'none';
+            previewArea.style.display = 'none';
+            downloadFontBtn.style.display = 'none';
+            uploadedImagePreviewContainer.style.display = 'none'; // Hide preview initially or on reset
+            uploadedImagePreview.src = "#"; // Clear src
+        }
+
+        // --- Event listener for file input change to show preview ---
+        handwritingImageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedImagePreview.src = e.target.result;
+                    uploadedImagePreviewContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+                // When a new image is selected, reset subsequent steps
+                hideAllStepsAndPreview(); // Hide verification and preview if a new image is chosen
+                verificationArea.style.display = 'none';
+                previewArea.style.display = 'none';
+                characterGrid.innerHTML = ''; // Clear old characters
+                messagesContainer.innerHTML = ''; // Clear any old messages
+            } else {
+                uploadedImagePreviewContainer.style.display = 'none';
+                uploadedImagePreview.src = "#";
+            }
+        });
+
+        function hideAllSteps() {
+            // uploadForm.style.display = 'none'; // Keep upload form visible initially or hide based on state
+            verificationArea.style.display = 'none';
+            previewArea.style.display = 'none';
+            downloadFontBtn.style.display = 'none';
+        }
+
+        // --- Step 1: Image Upload and Initial Processing ---
+        uploadForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(uploadForm);
+            const imageFile = document.getElementById('handwriting_image').files;
+
+            if (imageFile.length === 0) {
+                displayMessage("Please select an image file.", "error");
+                return;
+            }
+
+            loadingIndicator.style.display = 'flex';
+            hideAllSteps(); // Hide other steps during processing
+            messagesContainer.innerHTML = ''; // Clear messages
+
+            currentFontFamilyName = document.getElementById('font_family_name_input').value || "MyHandwriting";
+            currentStrokeThickness = document.getElementById('stroke_thickness_input').value || 100;;
+
+            try {
+                const response = await fetch("/process_image_for_verification", {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    displayMessage("Characters processed. Please verify.", "success");
+                    renderVerificationGrid(data.characters);
+                    verificationArea.style.display = 'block';
+                } else {
+                    displayMessage(data.message || "Failed to process image.", "error");
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+                displayMessage("An error occurred during upload.", "error");
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        });
+
+        // --- Step 2: Render Verification Grid ---
+        function renderVerificationGrid(characters) {
+            characterGrid.innerHTML = ''; // Clear previous
+            if (!characters || characters.length === 0) {
+                characterGrid.innerHTML = '<p>No characters were detected. Please try a clearer image.</p>';
+                generateFontBtn.style.display = 'none'; // Hide button if no chars
+                return;
+            }
+            generateFontBtn.style.display = 'inline-block';
+
+
+            characters.forEach(char => {
+                const charItem = document.createElement('div');
+                charItem.className = 'char-item';
+                charItem.dataset.id = char.id; // Store unique ID
+                charItem.dataset.image_b64 = char.image_b64; // Store base64 data
+
+                const img = document.createElement('img');
+                img.src = `data:image/png;base64,${char.image_b64}`;
+                img.alt = `Character ${char.label}`;
+
+                const labelInput = document.createElement('input');
+                labelInput.type = 'text';
+                labelInput.className = 'char-label-input';
+                labelInput.value = char.label;
+                labelInput.maxLength = 1; // Usually single character labels
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'char-remove-btn';
+                removeBtn.textContent = 'Remove';
+                removeBtn.onclick = function () {
+                    charItem.remove(); // Remove from DOM
+                    // Optionally, re-check if characterGrid is empty to hide generateFontBtn
+                    if (characterGrid.children.length === 0) {
+                        generateFontBtn.style.display = 'none';
+                    }
+                };
+
+                charItem.appendChild(img);
+                charItem.appendChild(labelInput);
+                charItem.appendChild(removeBtn);
+                characterGrid.appendChild(charItem);
+            });
+        }
+
+        // --- Step 2 Action: Generate Font from Verified Data ---
+        generateFontBtn.addEventListener('click', async function () {
+            const verifiedCharactersData = [];
+            const charItems = characterGrid.querySelectorAll('.char-item');
+
+            charItems.forEach(item => {
+                const label = item.querySelector('.char-label-input').value;
+                if (label) { // Only include if label is not empty
+                    verifiedCharactersData.push({
+                        id: item.dataset.id,
+                        label: label,
+                        image_b64: item.dataset.image_b64
+                    });
+                }
+            });
+
+            if (verifiedCharactersData.length === 0) {
+                displayMessage("No characters to generate font from. Please ensure items have labels.", "error");
+                return;
+            }
+
+            loadingIndicator.style.display = 'flex';
+            hideAllSteps();
+            messagesContainer.innerHTML = '';
+
+            try {
+                const response = await fetch("/generate_font_from_verified", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        characters: verifiedCharactersData,
+                        font_family_name: currentFontFamilyName,
+                        stroke_thickness: currentStrokeThickness,
+                    }),
+                });
+
+                // Check if the response is JSON (an error) or a file (success)
+                const contentType = response.headers.get("content-type");
+
+                if (response.ok && contentType && contentType.includes("font/ttf")) {
+                    // SUCCESS: We received the binary font file!
+                    const blob = await response.blob();
+
+                    // Create a local URL for the Blob (super fast, no base64 needed)
+                    const fontUrl = URL.createObjectURL(blob);
+
+                    displayMessage("Font generated! Preview below.", "success");
+
+                    loadAndPreviewFont(fontUrl, currentFontFamilyName);
+                    previewArea.style.display = 'block';
+
+                    // Setup the download button directly with the Blob URL
+                    downloadFontBtn.style.display = 'inline-block';
+                    downloadFontBtn.onclick = function () {
+                        const link = document.createElement('a');
+                        link.href = fontUrl;
+                        link.download = `${currentFontFamilyName.replace(/\s+/g, '_') || 'custom_font'}.ttf`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    };
+
+                } else {
+                    // ERROR: We received JSON
+                    const data = await response.json();
+                    displayMessage(data.message || "Failed to generate font.", "error");
+                    verificationArea.style.display = 'block'; // Show verification again
+                }
+
+            } catch (error) {
+                console.error("Font generation error:", error);
+                displayMessage("An error occurred during font generation.", "error");
+                verificationArea.style.display = 'block';
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        });
+
+        function loadAndPreviewFont(fontUrl, fontName) {
+            const styleId = 'customFontStyle';
+            const oldStyle = document.getElementById(styleId);
+            if (oldStyle) oldStyle.remove();
+
+            const newStyle = document.createElement('style');
+            newStyle.id = styleId;
+            newStyle.textContent = `
+                @font-face {
+                    font-family: "${fontName}";
+                    src: url("${fontUrl}"); /* Use the Object URL directly */
+                }
+            `;
+            document.head.appendChild(newStyle);
+            fontPreviewEditor.style.fontFamily = `"${fontName}", sans-serif`;
+            fontPreviewEditor.value = `This is a test of the font: ${fontName}.\nAa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz`;
+        }
+
+    </script>
+</body>
+
+</html>

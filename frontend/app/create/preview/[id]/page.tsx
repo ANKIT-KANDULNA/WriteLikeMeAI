@@ -90,6 +90,14 @@ function EditableBlock({
 }) {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [block.text, block.width, block.fontSize]);
 
   const handleGenerateAI = async () => {
     if (!prompt.trim()) return;
@@ -192,6 +200,7 @@ function EditableBlock({
 
       {/* The Text Box */}
       <textarea
+         ref={textareaRef}
          value={block.text}
          onChange={(e) => updateBlock(block.id, { text: e.target.value })}
          onFocus={() => setActiveBlockId(block.id)}
@@ -204,7 +213,7 @@ function EditableBlock({
             fontFamily: `"MyHandwriting-${fontResult?.fontId || 'default'}`,
             color: block.color,
          }}
-         rows={Math.max(1, block.text.split('\n').length)}
+         rows={1}
       />
     </div>
   )

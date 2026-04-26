@@ -75,7 +75,7 @@ function UploadStep() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch(`${API}/api/segment`, {
+      const res = await fetch(`/api/proxy-segment`, {
         method: "POST",
         body: formData,
       });
@@ -197,12 +197,12 @@ function VerifyStep() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API}/api/build-font`, {
+      const res = await fetch(`/api/proxy-build`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           session_id: sessionId,
-          characters: characters.map((c) => ({ id: c.id, label: c.label })),
+          characters: characters.map((c) => ({ id: c.id, label: c.label, image_b64: c.image_b64 })),
           font_name: fontName,
           thickness,
         }),
@@ -221,15 +221,15 @@ function VerifyStep() {
 
       const ttfUrl =
         ttfPublicUrl ??
-        URL.createObjectURL(
+        (data.ttf_b64 ? URL.createObjectURL(
           new Blob([Uint8Array.from(atob(data.ttf_b64), (c) => c.charCodeAt(0))], { type: "font/ttf" })
-        );
+        ) : "");
 
       const woff2Url =
         woff2PublicUrl ??
-        URL.createObjectURL(
+        (data.woff2_b64 ? URL.createObjectURL(
           new Blob([Uint8Array.from(atob(data.woff2_b64), (c) => c.charCodeAt(0))], { type: "font/woff2" })
-        );
+        ) : ttfUrl);
 
       setFontResult({
         fontName: data.font_name,

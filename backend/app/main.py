@@ -61,10 +61,14 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 
-# ✅ CORS FIX (allow all for now)
+# ✅ CORS FIX (allow specific origins)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 🔥 important for Vercel + local
+    allow_origins=[
+        "http://localhost:3000",
+        "https://write-like-me-ai.vercel.app",
+        "https://writelikemeai.onrender.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
