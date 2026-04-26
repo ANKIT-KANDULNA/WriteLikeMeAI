@@ -133,6 +133,7 @@ function UploadStep() {
           <input
             type="text"
             value={fontName}
+            suppressHydrationWarning
             onChange={(e) => setFontName(e.target.value)}
             className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 dark:text-white"
             placeholder="MyHandwriting"
@@ -143,6 +144,7 @@ function UploadStep() {
           <input
             type="number"
             value={thickness}
+            suppressHydrationWarning
             onChange={(e) => setThickness(Number(e.target.value))}
             min={50} max={300}
             className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 dark:text-white"
