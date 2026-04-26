@@ -205,7 +205,7 @@ function EditableBlock({
          onChange={(e) => updateBlock(block.id, { text: e.target.value })}
          onFocus={() => setActiveBlockId(block.id)}
          placeholder={isActive ? "Type..." : ""}
-         className={`w-full bg-transparent outline-none overflow-hidden resize-none ${isActive ? 'ring-1 ring-dashed ring-indigo-300 rounded shadow-sm' : ''}`}
+         className={`w-full bg-transparent outline-none overflow-hidden resize-none p-0 m-0 ${isActive ? 'ring-1 ring-dashed ring-indigo-300 rounded shadow-sm' : ''}`}
          style={{
             minHeight: globalLineSpacing * 2,
             lineHeight: `${globalLineSpacing}px`,
@@ -340,7 +340,7 @@ export default function PreviewPage() {
   const marginSide = 72;
   const globalLineSpacing = Math.round(defaultFontSize * 1.75);
   // Optional offset so the text's baseline exactly hits the notebook line
-  const baselineOffset = Math.round(globalLineSpacing * 0.3);
+  const baselineOffset = Math.round(globalLineSpacing * 0.2);
 
   const calculateSnappedPosition = (clientX: number, clientY: number) => {
     if (!canvasRef.current) return null;
@@ -354,7 +354,7 @@ export default function PreviewPage() {
         snappedY = marginTop + (lineIndex * globalLineSpacing);
     }
     snappedY += baselineOffset;
-    return { x, y: snappedY - 14 };
+    return { x, y: snappedY };
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -478,7 +478,7 @@ export default function PreviewPage() {
                    color: defaultInkColor,
                    fontSize: defaultFontSize,
                    x: 72,
-                   y: 64 + Math.round(defaultFontSize * 1.75 * 0.3), // default margins
+                   y: 64 + Math.round(defaultFontSize * 1.75 * 0.2), // default margins
                    width: 250
                 };
                 setBlocks(prev => [...prev, newBlock]);
