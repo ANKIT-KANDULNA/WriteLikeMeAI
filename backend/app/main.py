@@ -81,5 +81,9 @@ print("GROQ_API_KEY:", os.getenv("GROQ_API_KEY"))
 
 
 # Routes
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "WriteLikeMe AI Backend is running."}
+
 app.include_router(health_router, prefix="/api")
 app.include_router(generate_router, prefix="/api")
