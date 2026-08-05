@@ -90,6 +90,23 @@ function UploadStep() {
     }
   };
 
+  const loadExampleImage = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/good_example.jpg");
+      if (!res.ok) throw new Error("Could not fetch example image.");
+      const blob = await res.blob();
+      const exampleFile = new File([blob], "example_handwriting.jpg", { type: "image/jpeg" });
+      handleFile(exampleFile);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load example image.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 max-w-lg mx-auto w-full">
       <div
@@ -125,6 +142,12 @@ function UploadStep() {
             <p className="text-sm text-slate-400 mt-1">PNG or JPG — clear, separated characters on plain background</p>
           </div>
         )}
+      </div>
+
+      <div className="flex justify-center -mt-3 mb-1">
+         <button onClick={(e) => { e.preventDefault(); loadExampleImage(); }} className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 underline underline-offset-2 transition-colors">
+            In a rush? Click here to load an example image.
+         </button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">

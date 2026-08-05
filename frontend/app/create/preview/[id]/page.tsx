@@ -283,18 +283,26 @@ export default function PreviewPage() {
     if (!fontResult) return;
     setFontLoaded(false);
     
-    const loadFont = (url: string, fontName: string) => {
-      const face = new FontFace(fontName, `url(${url})`);
+    const loadFont = (urlOrData: string, fontName: string) => {
+      const face = new FontFace(fontName, `url(${urlOrData})`);
       return face.load().then((f) => {
         document.fonts.add(f);
         return fontName;
-      }).catch(() => null);
+      }).catch((err) => {
+        console.error("Font load error:", err);
+        return null;
+      });
     };
 
     const fontName = `MyHandwriting-${fontResult.fontId}`;
-    loadFont(`/generated-fonts/${fontResult.fontId}.woff2`, fontName).then((loadedName) => {
+    
+    // Prefer base64 strings if available (crucial for deployment where frontend/backend are split)
+    const woff2Source = fontResult.woff2B64 ? `data:font/woff2;charset=utf-8;base64,${fontResult.woff2B64}` : (fontResult.woff2Url || `/generated-fonts/${fontResult.fontId}.woff2`);
+    const ttfSource = fontResult.ttfB64 ? `data:font/truetype;charset=utf-8;base64,${fontResult.ttfB64}` : (fontResult.ttfUrl || `/generated-fonts/${fontResult.fontId}.ttf`);
+
+    loadFont(woff2Source, fontName).then((loadedName) => {
         if (loadedName) setFontLoaded(true);
-        else loadFont(`/generated-fonts/${fontResult.fontId}.ttf`, fontName).then(() => setFontLoaded(true));
+        else loadFont(ttfSource, fontName).then(() => setFontLoaded(true));
     });
       
     return () => { if (userFaceRef.current) document.fonts.delete(userFaceRef.current); };
