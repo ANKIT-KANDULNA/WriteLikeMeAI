@@ -90,7 +90,21 @@ function EditableBlock({
 }) {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Clear error when user starts typing
+  useEffect(() => {
+    if (error) setError(null);
+  }, [prompt]);
+
+  // Clear error after 5 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -102,6 +116,7 @@ function EditableBlock({
   const handleGenerateAI = async () => {
     if (!prompt.trim()) return;
     setIsGenerating(true);
+    setError(null);
     try {
       const res = await fetch(`/api/generate-text`, {
         method: "POST",
@@ -115,6 +130,7 @@ function EditableBlock({
       setPrompt("");
     } catch (err) {
       console.error("AI Generation Error", err);
+      setError(err instanceof Error ? err.message : "Failed to generate text. Please try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -179,6 +195,12 @@ function EditableBlock({
                    {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                </button>
             </div>
+            {/* Error message */}
+            {error && (
+              <div className="absolute top-full left-0 mt-1 z-50 bg-red-50 border border-red-200 text-red-600 text-xs px-2 py-1 rounded shadow-md max-w-[200px]">
+                {error}
+              </div>
+            )}
             {/* Delete */}
             <button onClick={() => removeBlock(block.id)} className="text-red-500 hover:bg-red-50 p-1.5 rounded-md transition-colors" title="Delete Block">
                <Trash2 className="w-4 h-4" />

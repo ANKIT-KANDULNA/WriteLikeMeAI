@@ -245,9 +245,10 @@ async def generate_text(req: GenerateTextRequest):
     word_count = max(20, min(int(req.word_count or 150), 600))
 
     system_msg = (
-        "You are a helpful writing assistant. "
-        f"Write approximately {word_count} words. "
-        "Return only the text, no markdown, no bullet points, no title."
+        "You are a helpful writing assistant. The user will provide a topic or prompt. "
+        f"Write approximately {word_count} words about their topic. "
+        "Return only the plain text response, no markdown formatting, no bullet points, "
+        "no title, no introductory phrases like 'Here is' or 'Sure thing'."
     )
 
     provider = (req.model or "groq").strip().lower()
@@ -265,7 +266,7 @@ async def generate_text(req: GenerateTextRequest):
             raise HTTPException(500, detail="GROQ_API_KEY is not set on the backend.")
         url = "https://api.groq.com/openai/v1/chat/completions"
         payload = {
-            "model": os.getenv("GROQ_MODEL", "llama-3.1-8b-instant"),
+            "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-120b"),
             "messages": [
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": prompt},
@@ -292,7 +293,7 @@ async def generate_text(req: GenerateTextRequest):
             raise HTTPException(500, detail="DEEPSEEK_API_KEY is not set on the backend.")
         url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com") + "/chat/completions"
         payload = {
-            "model": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+            "model": os.getenv("DEEPSEEK_MODEL", "deepseek-v4-flash"),
             "messages": [
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": prompt},
@@ -317,7 +318,7 @@ async def generate_text(req: GenerateTextRequest):
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise HTTPException(500, detail="GEMINI_API_KEY is not set on the backend.")
-        model_name = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
         params = {"key": api_key}
         payload = {

@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     }
 
     const words = Math.max(20, Math.min(Number(word_count) || 150, 600));
-    const systemMsg = `You are a helpful writing assistant. Write approximately ${words} words. Return only the text, no markdown, no bullet points, no title.`;
+    const systemMsg = `You are a helpful writing assistant. The user will provide a topic or prompt. Write approximately ${words} words about their topic. Return only the plain text response, no markdown formatting, no bullet points, no title, no introductory phrases like "Here is" or "Sure thing".`;
     
     const provider = (model || "groq").trim().toLowerCase();
 
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         method: "POST",
         headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: process.env.GROQ_MODEL || "llama-3.1-8b-instant",
+          model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
           messages: [
             { role: "system", "content": systemMsg },
             { role: "user", "content": prompt }
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         method: "POST",
         headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: process.env.DEEPSEEK_MODEL || "deepseek-chat",
+          model: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash",
           messages: [
             { role: "system", "content": systemMsg },
             { role: "user", "content": prompt }
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
       const apiKey = process.env.GEMINI_API_KEY;
       if (!apiKey) return NextResponse.json({ detail: "GEMINI_API_KEY is not set." }, { status: 500 });
 
-      const modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+      const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       
       const res = await fetch(url, {
